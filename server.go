@@ -2,18 +2,17 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/hieronimusbudi/go-fiber-bookstore-item-api/datasources/elasticsearch"
+	"github.com/hieronimusbudi/go-fiber-bookstore-item-api/datasources/mongodb"
+	"github.com/hieronimusbudi/go-fiber-bookstore-item-api/routes"
 )
 
 func main() {
 	app := fiber.New()
+	routes.PingRoutes(app)
+	routes.ItemRoutes(app)
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("hello world!")
-	})
-
-	app.Get("/wow", func(c *fiber.Ctx) error {
-		return c.SendString("wow from router update")
-	})
-
+	elasticsearch.Init()
+	mongodb.Init()
 	app.Listen(":9000")
 }
